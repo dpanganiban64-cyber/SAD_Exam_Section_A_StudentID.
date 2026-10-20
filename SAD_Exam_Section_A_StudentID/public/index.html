@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ScholarTrack | Scholarship Monitoring</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <div class="brand">ScholarTrack</div>
+        <div class="subbrand">
+          Student Scholarship Monitoring and Academic Compliance System
+        </div>
+      </div>
+      <button id="logoutBtn" class="ghost hidden">Log out</button>
+    </header>
+    <main class="container">
+      <section id="loginView" class="login-wrap">
+        <div class="login-card">
+          <p class="eyebrow">SCHOLARSHIP OFFICE</p>
+          <h1>Welcome back</h1>
+          <p class="muted">
+            Sign in using your Supabase Auth email and password.
+          </p>
+          <form id="loginForm">
+            <label
+              >Email<input
+                name="email"
+                type="email"
+                required
+                autocomplete="username"
+                placeholder="your-email@example.com" /></label
+            ><label
+              >Password<input
+                name="password"
+                type="password"
+                required
+                autocomplete="current-password" /></label
+            ><button class="primary full">Sign in</button>
+            <p id="loginError" class="error"></p>
+          </form>
+            
+        </div>
+      </section>
+      <section id="appView" class="hidden">
+        <div class="welcome-row">
+          <div>
+            <p class="eyebrow" id="roleLabel"></p>
+            <h1 id="welcomeTitle">Dashboard</h1>
+            <p class="muted" id="welcomeText"></p>
+          </div>
+          <span id="userPill" class="pill"></span>
+        </div>
+        <div id="staffDashboard" class="hidden">
+          <div class="stats" id="stats"></div>
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Scholar submissions</h2>
+                <p class="muted">
+                  Search, verify, evaluate compliance, and record renewal
+                  decisions.
+                </p>
+              </div>
+              <button id="showRegister" class="secondary">
+                Assign scholar
+              </button>
+            </div>
+            <div class="filters">
+              <input
+                id="searchInput"
+                placeholder="Search student ID or name"
+              /><select id="programFilter">
+                <option value="">All programs</option></select
+              ><select id="complianceFilter">
+                <option value="">All compliance results</option>
+                <option>Not Evaluated</option>
+                <option>Compliant</option>
+                <option>With Deficiency</option></select
+              ><select id="semesterFilter">
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="Summer">Summer</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Scholar</th>
+                    <th>Program</th>
+                    <th>Term</th>
+                    <th>GWA</th>
+                    <th>Verification</th>
+                    <th>Compliance / Reasons</th>
+                    <th>Renewal</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="submissionRows"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel">
+            <h2>Recent audit history</h2>
+            <div id="auditList" class="audit-list"></div>
+          </div>
+        </div>
+        <div id="scholarView" class="hidden">
+          <div class="stats" id="scholarStats"></div>
+          <div class="panel">
+            <h2>Submit semester academic summary</h2>
+            <p class="muted">
+              Enter the summary from your records and the grade-document
+              reference. This system does not change official Registrar grades.
+            </p>
+            <form id="submissionForm" class="form-grid">
+              <label
+                >Academic year<input
+                  name="academicYear"
+                  value="2026-2027"
+                  required /></label
+              ><label
+                >Semester<select name="semester">
+                  <option value="1">Semester 1</option>
+                  <option value="2">Semester 2</option>
+                  <option value="Summer">Summer</option>
+                </select></label
+              ><label
+                >GWA (1.00–5.00)<input
+                  name="gwa"
+                  type="number"
+                  min="1"
+                  max="5"
+                  step=".01"
+                  required /></label
+              ><label
+                >Enrolled units<input
+                  name="units"
+                  type="number"
+                  min="0"
+                  step="1"
+                  required /></label
+              ><label
+                >Failed subjects<input
+                  name="failed"
+                  type="number"
+                  min="0"
+                  step="1"
+                  value="0"
+                  required /></label
+              ><label
+                >Incomplete grades<input
+                  name="incomplete"
+                  type="number"
+                  min="0"
+                  step="1"
+                  value="0"
+                  required /></label
+              ><label
+                >Dropped subjects<input
+                  name="dropped"
+                  type="number"
+                  min="0"
+                  step="1"
+                  value="0"
+                  required /></label
+              ><label
+                >Grade-document reference<input
+                  name="evidenceRef"
+                  required
+                  placeholder="e.g. GRADE-DOC-2026-001" /></label
+              ><button class="primary">Submit summary</button>
+              <p id="submitMessage" class="message"></p>
+            </form>
+          </div>
+          <div class="panel">
+            <h2>My submissions</h2>
+            <div id="mySubmissions" class="submission-cards"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div id="modal" class="modal hidden">
+      <div class="modal-card">
+        <div class="panel-head">
+          <h2 id="modalTitle">Action</h2>
+          <button id="closeModal" class="ghost">Close</button>
+        </div>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+    <div id="toast" class="toast hidden"></div>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "scholarship-monitoring-supabase",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Browser-based scholarship monitoring app using Supabase Auth, PostgreSQL, RLS and database RPC functions.",
+  "scripts": {"start": "npx serve public", "dev": "npx serve public"},
+  "engines": {"node": ">=18"},
+  "devDependencies": {"serve": "^14.2.4"}
+}
